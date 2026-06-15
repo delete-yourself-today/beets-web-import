@@ -1,0 +1,8 @@
+node_modules/
+
+public/*
+!public/index.html
+!public/scripts/
+
+cookies.txt
+config.yaml
