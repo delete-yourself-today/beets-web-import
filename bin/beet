@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+args=(-l /data/beets/library.db -d /music)
+if [[ -f /config/beets/config.yaml ]]; then
+  args+=(-c /config/beets/config.yaml)
+fi
+
+exec /home/node/.local/bin/beet "${args[@]}" "$@"

@@ -1,0 +1,15 @@
+.DS_Store
+.git
+.gitignore
+Dockerfile
+compose.yml
+node_modules
+npm-debug.log
+dist
+
+cookies.txt
+config.yaml
+
+data
+inbox
+music

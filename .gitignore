@@ -1,8 +1,11 @@
 node_modules/
+dist/
 
-public/*
-!public/index.html
-!public/scripts/
+.DS_Store
 
 cookies.txt
 config.yaml
+
+data/
+inbox/
+music/

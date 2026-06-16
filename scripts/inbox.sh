@@ -2,4 +2,4 @@
 
 set -euo pipefail
 
-exec beet import -t /media/Inbox
+exec beet import -t /inbox

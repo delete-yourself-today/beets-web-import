@@ -68,15 +68,17 @@ const handleUpload = (req: http.IncomingMessage, res: http.ServerResponse) => {
     } catch (err) {
       fs.rmSync(importDir, { recursive: true, force: true });
       res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: err.message }));
+      const message = err instanceof Error ? err.message : String(err);
+      res.end(JSON.stringify({ error: message }));
     }
   });
 
   req.pipe(busboy);
 };
 
-const BEETS_FRONTEND_PORT = 5173;
+const BEETS_FRONTEND_PORT = Number(process.env.BEETS_FRONTEND_PORT ?? 5173);
 const HOST = "0.0.0.0";
+const SCRIPTS_DIR = path.join(__dirname, "..", "scripts");
 
 const MIME = {
   ".html": "text/html",
@@ -125,7 +127,7 @@ wss.on("connection", (ws) => {
 
   const spawnScript = (name: string, args: string[] = []) => {
     shell?.kill();
-    const scriptPath = path.join(__dirname, "scripts", name);
+    const scriptPath = path.join(SCRIPTS_DIR, name);
     const next = pty.spawn(scriptPath, args, {
       name: "xterm-color",
       cols,

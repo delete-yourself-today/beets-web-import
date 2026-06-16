@@ -1,10 +1,9 @@
 {
-  "name": "beet-frontend",
+  "name": "beets-web-import",
   "scripts": {
-    "build:client": "esbuild src/client.ts --bundle --outfile=public/client.js",
-    "build:server": "esbuild src/server.ts --bundle --platform=node --outfile=public/server.js --external:node-pty",
-    "build": "npm run build:client && npm run build:server",
-    "start": "node public/server.js"
+    "build:client": "esbuild src/client.ts --bundle --outfile=dist/client.js",
+    "build:server": "esbuild src/server.ts --bundle --platform=node --outfile=dist/server.js --external:node-pty",
+    "build": "mkdir -p dist && cp static/index.html dist/index.html && npm run build:client && npm run build:server"
   },
   "dependencies": {
     "@xterm/addon-fit": "^0.11.0",

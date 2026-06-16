@@ -1,0 +1,19 @@
+services:
+  beets:
+    build:
+      context: .
+      args:
+        UID: 1000
+        GID: 1000
+    image: beets-web-import:local
+    container_name: beets-web-import
+    restart: unless-stopped
+    environment:
+      - BEETS_FRONTEND_PORT=5173
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./data:/data/beets
+      - ./yt-dlp.conf:/config/yt-dlp/config:ro
+      - ./inbox:/inbox
+      - ./music:/music
