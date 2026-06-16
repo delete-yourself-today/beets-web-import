@@ -37,11 +37,12 @@ ARG GID=1000
 
 RUN groupmod --gid "${GID}" node \
   && usermod --uid "${UID}" --gid "${GID}" node \
-  && mkdir -p /config/beets /config/yt-dlp /data/beets /inbox /music \
+  && mkdir -p /config/beets /config/gamdl /config/yt-dlp /data/beets /inbox /music \
   && chown -R node:node /home/node /config /data /inbox /music
 
 USER node
 RUN pipx install beets \
+  && pipx install gamdl \
   && pipx install 'yt-dlp[default]'
 
 WORKDIR /app

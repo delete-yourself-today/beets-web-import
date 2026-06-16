@@ -8,6 +8,7 @@ printf '\e[1mImport with beets\e[0m\n'
 printf '  \e[1m1\e[0m) Import from /inbox\n'
 printf '  \e[1m2\e[0m) Download from YouTube\n'
 printf '  \e[1m3\e[0m) Download from direct URL\n'
+printf '  \e[1m4\e[0m) Download from Apple Music\n'
 printf '  ...or drag and drop anywhere in this window to upload\n'
 printf '\n'
 
@@ -26,6 +27,10 @@ while true; do
   3)
     printf '\e[2mStarting direct URL import...\e[0m\n'
     exec "$scripts_dir/url.sh"
+    ;;
+  4)
+    printf '\e[2mStarting Apple Music import...\e[0m\n'
+    exec "$scripts_dir/gamdl.sh"
     ;;
   esac
 done

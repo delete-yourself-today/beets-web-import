@@ -14,6 +14,9 @@ services:
       - "5173:5173"
     volumes:
       - ./data:/data/beets
-      - ./yt-dlp.conf:/config/yt-dlp/config:ro
+      # - ./gamdl.ini:/config/gamdl/config.ini:ro
+      # - ./apple-music-cookies.txt:/config/gamdl/cookies.txt:ro
+      # - ./yt-dlp.conf:/config/yt-dlp/config:ro
+      # - ./youtube-cookies.txt:/config/yt-dlp/cookies.txt:ro
       - ./inbox:/inbox
       - ./music:/music
