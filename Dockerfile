@@ -18,7 +18,6 @@ RUN npm prune --omit=dev
 FROM node:22-bookworm-slim AS runtime
 
 ENV HOME=/home/node \
-  BEETS_FRONTEND_PORT=5173 \
   PATH=/app/bin:/home/node/.local/bin:$PATH
 
 RUN apt-get update \

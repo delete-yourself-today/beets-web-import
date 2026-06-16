@@ -8,15 +8,14 @@ services:
     image: beets-web-import:local
     container_name: beets-web-import
     restart: unless-stopped
-    environment:
-      - BEETS_FRONTEND_PORT=5173
     ports:
       - "5173:5173"
     volumes:
       - ./data:/data/beets
+      - ./inbox:/inbox
+      - ./music:/music
+      - ./config.yaml:/config/beets/config.yaml:ro
       # - ./gamdl.ini:/config/gamdl/config.ini:ro
       # - ./apple-music-cookies.txt:/config/gamdl/cookies.txt:ro
       # - ./yt-dlp.conf:/config/yt-dlp/config:ro
       # - ./youtube-cookies.txt:/config/yt-dlp/cookies.txt:ro
-      - ./inbox:/inbox
-      - ./music:/music

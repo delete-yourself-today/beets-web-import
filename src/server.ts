@@ -56,7 +56,7 @@ const handleUpload = (req: http.IncomingMessage, res: http.ServerResponse) => {
   req.pipe(busboy);
 };
 
-const BEETS_FRONTEND_PORT = Number(process.env.BEETS_FRONTEND_PORT ?? 5173);
+const PORT = 5173;
 const HOST = "0.0.0.0";
 const SCRIPTS_DIR = path.join(__dirname, "..", "scripts");
 
@@ -159,6 +159,6 @@ wss.on("connection", (ws) => {
   ws.on("close", () => shell?.kill());
 });
 
-httpServer.listen(BEETS_FRONTEND_PORT, HOST, () => {
-  console.log(`server running at ${HOST}:${BEETS_FRONTEND_PORT}`);
+httpServer.listen(PORT, HOST, () => {
+  console.log(`server running at ${HOST}:${PORT}`);
 });
