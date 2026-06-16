@@ -6,7 +6,8 @@ scripts_dir="$(dirname "$0")"
 
 printf '\e[1mImport with beets\e[0m\n'
 printf '  \e[1m1\e[0m) Import from /inbox\n'
-printf '  \e[1m2\e[0m) Download from URL\n'
+printf '  \e[1m2\e[0m) Download from YouTube\n'
+printf '  \e[1m3\e[0m) Download from direct URL\n'
 printf '  ...or drag and drop anywhere in this window to upload\n'
 printf '\n'
 
@@ -19,7 +20,11 @@ while true; do
     exec "$scripts_dir/inbox.sh"
     ;;
   2)
-    printf '\e[2mStarting URL import...\e[0m\n'
+    printf '\e[2mStarting YouTube import...\e[0m\n'
+    exec "$scripts_dir/youtube.sh"
+    ;;
+  3)
+    printf '\e[2mStarting direct URL import...\e[0m\n'
     exec "$scripts_dir/url.sh"
     ;;
   esac
