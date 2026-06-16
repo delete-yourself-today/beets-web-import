@@ -1,4 +1,3 @@
-import AdmZip from "adm-zip";
 import Busboy from "busboy";
 import fs from "fs";
 import http from "http";
@@ -8,24 +7,6 @@ import os from "os";
 import path from "path";
 import { WebSocketServer } from "ws";
 import { Message } from "./protocol";
-
-const extractArchives = (dir: string) => {
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-
-  for (const entry of entries) {
-    if (!entry.isFile() || !entry.name.toLowerCase().endsWith(".zip")) continue;
-
-    const fullPath = path.join(dir, entry.name);
-    const extractDir = path.join(dir, path.basename(entry.name, ".zip"));
-
-    fs.mkdirSync(extractDir, { recursive: true });
-
-    const zip = new AdmZip(fullPath);
-    zip.extractAllTo(extractDir, true);
-
-    fs.unlinkSync(fullPath);
-  }
-};
 
 const handleUpload = (req: http.IncomingMessage, res: http.ServerResponse) => {
   const jobId = crypto.randomUUID();
@@ -61,7 +42,6 @@ const handleUpload = (req: http.IncomingMessage, res: http.ServerResponse) => {
   busboy.on("finish", async () => {
     try {
       await Promise.all(pending);
-      extractArchives(importDir);
 
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ jobId, importDir }));

@@ -33,4 +33,6 @@ yt-dlp \
   --js-runtimes "node:$node_bin" \
   "$url"
 
+"$(dirname "$0")/prepare-import-dir.sh" "$tmpdir"
+
 beet import -t "$tmpdir"

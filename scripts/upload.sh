@@ -11,4 +11,6 @@ if [[ ! -d "$dir" ]]; then
 fi
 trap 'rm -rf "$dir"' EXIT
 
+"$(dirname "$0")/prepare-import-dir.sh" "$dir"
+
 beet import -t "$dir"

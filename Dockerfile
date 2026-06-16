@@ -28,6 +28,7 @@ RUN apt-get update \
     ffmpeg \
     pipx \
     python3 \
+    unzip \
   && rm -rf /var/lib/apt/lists/*
 
 ARG UID=1000
