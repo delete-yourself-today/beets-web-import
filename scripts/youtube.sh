@@ -38,6 +38,7 @@ yt-dlp \
   --output "chapter:%(title)s/%(section_number)02d %(section_title)s.%(ext)s" \
   --remote-components ejs:github \
   --js-runtimes "node:$node_bin" \
+  --progress \
   "$url"
 
 "$(dirname "$0")/prepare-import-dir.sh" "$tmpdir"
