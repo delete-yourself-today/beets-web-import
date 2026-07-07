@@ -2,13 +2,17 @@
 
 set -euo pipefail
 
+scripts_dir="$(dirname "$0")"
+source "$scripts_dir/cleanup.sh"
+cleanup_stale_download_dirs
+
 url=
 while [[ -z "$url" ]]; do
   read -r -p "YouTube URL: " url
 done
 
 tmpdir="$(mktemp -d -t beet-youtube.XXXXXX)"
-trap 'rm -rf "$tmpdir"' EXIT
+cleanup_dir_on_exit "$tmpdir"
 
 config_args=(--ignore-config)
 if [[ -f /config/yt-dlp/config ]]; then
@@ -44,6 +48,6 @@ yt-dlp \
   --progress \
   "$url"
 
-"$(dirname "$0")/prepare-import-dir.sh" "$tmpdir"
+"$scripts_dir/prepare-import-dir.sh" "$tmpdir"
 
 beet import -t "$tmpdir"

@@ -2,13 +2,17 @@
 
 set -euo pipefail
 
+scripts_dir="$(dirname "$0")"
+source "$scripts_dir/cleanup.sh"
+cleanup_stale_download_dirs
+
 url=
 while [[ -z "$url" ]]; do
   read -r -p "Apple Music URL: " url
 done
 
 tmpdir="$(mktemp -d -t beet-gamdl.XXXXXX)"
-trap 'rm -rf "$tmpdir"' EXIT
+cleanup_dir_on_exit "$tmpdir"
 
 config_args=()
 if [[ -f /config/gamdl/config.ini ]]; then
@@ -30,6 +34,6 @@ gamdl \
   -- \
   "$url"
 
-"$(dirname "$0")/prepare-import-dir.sh" "$tmpdir"
+"$scripts_dir/prepare-import-dir.sh" "$tmpdir"
 
 beet import -t "$tmpdir"
