@@ -11,7 +11,7 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./data:/data/beets
+      - beets-data:/data/beets
       - ./inbox:/inbox
       - ./music:/music
       - ./config.yaml:/config/beets/config.yaml:ro
@@ -19,3 +19,6 @@ services:
       # - ./apple-music-cookies.txt:/config/gamdl/cookies.txt:ro
       # - ./yt-dlp.conf:/config/yt-dlp/config:ro
       # - ./youtube-cookies.txt:/config/yt-dlp/cookies.txt:ro
+
+volumes:
+  beets-data:
