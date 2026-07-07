@@ -17,7 +17,10 @@ fi
 
 cookies_args=()
 if [[ -f /config/yt-dlp/cookies.txt ]]; then
-  cookies_args=(--cookies /config/yt-dlp/cookies.txt)
+  cookies_file="$tmpdir/cookies.txt"
+  cp /config/yt-dlp/cookies.txt "$cookies_file"
+  chmod 600 "$cookies_file"
+  cookies_args=(--cookies "$cookies_file")
 fi
 
 node_bin="$(command -v node)"
