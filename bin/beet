@@ -2,7 +2,15 @@
 
 set -euo pipefail
 
-args=(-l /data/beets/library.db -d /music)
+library=/data/beets/library.db
+music_dir=/music
+
+mkdir -p "$(dirname "$library")"
+if [[ ! -e "$library" ]]; then
+  : > "$library"
+fi
+
+args=(-l "$library" -d "$music_dir")
 if [[ -f /config/beets/config.yaml ]]; then
   args+=(-c /config/beets/config.yaml)
 fi
