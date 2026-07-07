@@ -2,10 +2,29 @@
 
 set -euo pipefail
 
-library=/data/beets/library.db
+library_mode="${BEETS_WEB_IMPORT_LIBRARY_MODE:-ephemeral}"
 music_dir=/music
 
-mkdir -p "$(dirname "$library")"
+case "$library_mode" in
+ephemeral)
+  library_dir="$(mktemp -d -t beet-library.XXXXXX)"
+  cleanup() {
+    rm -rf "$library_dir"
+  }
+  trap cleanup EXIT
+  library="$library_dir/library.db"
+  ;;
+persistent)
+  library=/data/beets/library.db
+  mkdir -p "$(dirname "$library")"
+  ;;
+*)
+  echo "Invalid BEETS_WEB_IMPORT_LIBRARY_MODE: $library_mode" >&2
+  echo "Use 'ephemeral' or 'persistent'." >&2
+  exit 2
+  ;;
+esac
+
 if [[ ! -e "$library" ]]; then
   : > "$library"
 fi
@@ -15,4 +34,4 @@ if [[ -f /config/beets/config.yaml ]]; then
   args+=(-c /config/beets/config.yaml)
 fi
 
-exec /home/node/.local/bin/beet "${args[@]}" "$@"
+/home/node/.local/bin/beet "${args[@]}" "$@"
