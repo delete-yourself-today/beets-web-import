@@ -1,15 +1,12 @@
 .DS_Store
 .git
-.gitignore
-Dockerfile
-compose.yml
 node_modules
 npm-debug.log
-dist
+dist/
 
-cookies.txt
+*cookies.txt
 config.yaml
 
-data
-inbox
-music
+inbox/
+library/
+music/

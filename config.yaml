@@ -1,0 +1,11 @@
+directory: /music
+import:
+  move: yes
+  write: yes
+  resume: no
+
+paths:
+  default: $albumartist/$album/$track $title
+  singleton: $artist/$track $title
+
+plugins: musicbrainz edit
