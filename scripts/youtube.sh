@@ -50,4 +50,13 @@ yt-dlp \
 
 "$scripts_dir/prepare-import-dir.sh" "$tmpdir"
 
+find "$tmpdir" -maxdepth 1 -type f -iname '*.mp3' -print0 |
+  while IFS= read -r -d '' full_file; do
+    chapter_dir="${full_file%.*}"
+    if [[ -d "$chapter_dir" ]] &&
+      find "$chapter_dir" -type f -iname '*.mp3' -print -quit | grep -q .; then
+      rm -f -- "$full_file"
+    fi
+  done
+
 beet import -t "$tmpdir"
