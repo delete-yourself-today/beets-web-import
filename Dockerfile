@@ -18,6 +18,8 @@ RUN npm prune --omit=dev
 FROM node:22-bookworm-slim AS runtime
 
 ENV HOME=/home/node \
+  EDITOR=vi \
+  VISUAL=vi \
   PATH=/app/bin:/home/node/.local/bin:$PATH
 
 RUN apt-get update \
@@ -29,6 +31,7 @@ RUN apt-get update \
     pipx \
     python3 \
     unzip \
+    vim-tiny \
   && rm -rf /var/lib/apt/lists/*
 
 ARG UID=1000
