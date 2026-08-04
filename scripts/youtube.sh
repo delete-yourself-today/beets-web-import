@@ -59,4 +59,6 @@ find "$tmpdir" -maxdepth 1 -type f -iname '*.mp3' -print0 |
     fi
   done
 
+"$scripts_dir/tag-youtube-chapters.sh" "$tmpdir"
+
 beet import -t "$tmpdir"
