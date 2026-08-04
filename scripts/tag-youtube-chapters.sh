@@ -15,26 +15,16 @@ find "$root_dir" -mindepth 1 -maxdepth 1 -type d -print0 |
       continue
     fi
 
-    album="$(basename "$chapter_dir")"
-
     for chapter_file in "${chapter_files[@]}"; do
       filename="$(basename "$chapter_file")"
       stem="${filename%.*}"
 
       if [[ "$stem" =~ ^([0-9]+)[[:space:]]+(.+)$ ]]; then
         track_number="$((10#${BASH_REMATCH[1]}))"
-        chapter_title="${BASH_REMATCH[2]}"
+        title="${BASH_REMATCH[2]}"
       else
         echo "Cannot determine chapter number from: $chapter_file" >&2
         exit 1
-      fi
-
-      if [[ "$chapter_title" == *' - '* ]]; then
-        artist="${chapter_title%% - *}"
-        title="${chapter_title#* - }"
-      else
-        artist='Unknown Artist'
-        title="$chapter_title"
       fi
 
       tagged_file="${chapter_file%.*}.tagged.mp3"
@@ -44,11 +34,7 @@ find "$root_dir" -mindepth 1 -maxdepth 1 -type d -print0 |
         -i "$chapter_file" \
         -map 0 -c copy -map_metadata 0 \
         -metadata title="$title" \
-        -metadata artist="$artist" \
-        -metadata album="$album" \
-        -metadata album_artist='Various Artists' \
         -metadata track="$track_number/$track_total" \
-        -metadata compilation=1 \
         "$tagged_file"
 
       mv -f -- "$tagged_file" "$chapter_file"
