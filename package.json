@@ -3,7 +3,7 @@
   "scripts": {
     "build:client": "esbuild src/client.ts --bundle --outfile=dist/client.js",
     "build:server": "esbuild src/server.ts --bundle --platform=node --outfile=dist/server.js --external:node-pty",
-    "build": "mkdir -p dist && cp static/index.html dist/index.html && npm run build:client && npm run build:server"
+    "build": "mkdir -p dist && cp static/* dist/ && npm run build:client && npm run build:server"
   },
   "dependencies": {
     "@xterm/addon-fit": "^0.11.0",

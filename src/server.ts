@@ -64,6 +64,7 @@ const MIME = {
   ".html": "text/html",
   ".js": "text/javascript",
   ".css": "text/css",
+  ".png": "image/png",
 };
 
 const httpServer = http.createServer((req, res) => {
