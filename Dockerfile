@@ -19,6 +19,34 @@ RUN npm prune --omit=dev \
     node_modules/node-pty/prebuilds/darwin-* \
     node_modules/node-pty/prebuilds/win32-*
 
+FROM debian:bookworm-slim AS ffmpeg
+
+ARG TARGETARCH
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ca-certificates curl xz-utils \
+  && rm -rf /var/lib/apt/lists/* \
+  && case "$TARGETARCH" in \
+    amd64) \
+      archive=ffmpeg-master-latest-linux64-gpl.tar.xz \
+      ;; \
+    arm64) \
+      archive=ffmpeg-master-latest-linuxarm64-gpl.tar.xz \
+      ;; \
+    *) echo "unsupported architecture: $TARGETARCH" >&2; exit 1 ;; \
+  esac \
+  && release_url=https://github.com/yt-dlp/FFmpeg-Builds/releases/download/latest \
+  && curl --fail --location --retry 3 \
+    --output /tmp/checksums.sha256 "$release_url/checksums.sha256" \
+  && curl --fail --location --retry 3 \
+    --output "/tmp/$archive" "$release_url/$archive" \
+  && cd /tmp \
+  && grep "  $archive$" checksums.sha256 | sha256sum --check - \
+  && mkdir /opt/ffmpeg \
+  && tar --extract --xz --file "/tmp/$archive" --directory /opt/ffmpeg \
+    --strip-components=2 \
+    --wildcards '*/bin/ffmpeg' '*/bin/ffprobe'
+
 FROM node:22-bookworm-slim AS runtime
 
 ENV HOME=/home/node \
@@ -31,12 +59,14 @@ RUN apt-get update \
     bash \
     ca-certificates \
     curl \
-    ffmpeg \
     pipx \
     python3 \
     unzip \
     vim-tiny \
   && rm -rf /var/lib/apt/lists/*
+
+COPY --from=ffmpeg /opt/ffmpeg/ffmpeg /usr/local/bin/ffmpeg
+COPY --from=ffmpeg /opt/ffmpeg/ffprobe /usr/local/bin/ffprobe
 
 ARG UID=1000
 ARG GID=1000
