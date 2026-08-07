@@ -1,13 +1,21 @@
 <!doctype html>
 <html>
   <head>
+    <meta name="color-scheme" content="light dark" />
     <link rel="stylesheet" href="/client.css" />
     <style>
       html,
       body {
         margin: 0;
         height: 100%;
-        background: #000;
+        background: #ffffff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background: #0d1117;
+        }
       }
     </style>
   </head>

@@ -1,5 +1,5 @@
 import { FitAddon } from "@xterm/addon-fit";
-import { Terminal } from "@xterm/xterm";
+import { ITheme, Terminal } from "@xterm/xterm";
 import { Message } from "./protocol";
 
 // @ts-ignore
@@ -14,15 +14,70 @@ const isFileEntry = (e: FileSystemEntry): e is FileSystemFileEntry => e.isFile;
 const isDirectoryEntry = (e: FileSystemEntry): e is FileSystemDirectoryEntry =>
   e.isDirectory;
 
+const lightTheme: ITheme = {
+  foreground: "#1f2328",
+  background: "#ffffff",
+  cursor: "#0969da",
+  cursorAccent: "#ffffff",
+  selectionBackground: "#0969da40",
+  black: "#24292f",
+  red: "#cf222e",
+  green: "#116329",
+  yellow: "#4d2d00",
+  blue: "#0969da",
+  magenta: "#8250df",
+  cyan: "#1b7c83",
+  white: "#6e7781",
+  brightBlack: "#57606a",
+  brightRed: "#a40e26",
+  brightGreen: "#1a7f37",
+  brightYellow: "#633c01",
+  brightBlue: "#218bff",
+  brightMagenta: "#a475f9",
+  brightCyan: "#3192aa",
+  brightWhite: "#8c959f",
+};
+
+const darkTheme: ITheme = {
+  foreground: "#f0f6fc",
+  background: "#0d1117",
+  cursor: "#58a6ff",
+  cursorAccent: "#0d1117",
+  selectionBackground: "#58a6ff40",
+  black: "#484f58",
+  red: "#ff7b72",
+  green: "#3fb950",
+  yellow: "#d29922",
+  blue: "#58a6ff",
+  magenta: "#bc8cff",
+  cyan: "#39c5cf",
+  white: "#b1bac4",
+  brightBlack: "#6e7681",
+  brightRed: "#ffa198",
+  brightGreen: "#56d364",
+  brightYellow: "#e3b341",
+  brightBlue: "#79c0ff",
+  brightMagenta: "#d2a8ff",
+  brightCyan: "#56d4dd",
+  brightWhite: "#f0f6fc",
+};
+
 (() => {
   const terminalElement = document.getElementById("terminal");
   if (!terminalElement) return;
 
-  const term = new Terminal();
+  const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const term = new Terminal({
+    theme: colorScheme.matches ? darkTheme : lightTheme,
+  });
   const fitAddon = new FitAddon();
   term.loadAddon(fitAddon);
   term.open(terminalElement);
   fitAddon.fit();
+
+  colorScheme.addEventListener("change", ({ matches }) => {
+    term.options.theme = matches ? darkTheme : lightTheme;
+  });
 
   const wsProtocol = location.protocol === "https:" ? "wss:" : "ws:";
   let ws: WebSocket;
