@@ -25,10 +25,6 @@ persistent)
   ;;
 esac
 
-if [[ ! -e "$library" ]]; then
-  : > "$library"
-fi
-
 args=(-l "$library" -d "$music_dir")
 if [[ -f /config/beets/config.yaml ]]; then
   args+=(-c /config/beets/config.yaml)
