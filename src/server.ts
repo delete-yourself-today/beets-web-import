@@ -100,6 +100,11 @@ const httpServer = http.createServer((req, res) => {
 
 const wss = new WebSocketServer({ server: httpServer });
 
+const shutdown = () => process.exit(0);
+
+process.once("SIGTERM", shutdown);
+process.once("SIGINT", shutdown);
+
 wss.on("connection", (ws) => {
   let shell: pty.IPty | undefined;
   let cols = 80;
