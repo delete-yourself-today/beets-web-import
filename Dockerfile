@@ -13,7 +13,11 @@ COPY tsconfig.json ./
 COPY src ./src
 COPY static ./static
 RUN npm run build
-RUN npm prune --omit=dev
+RUN npm prune --omit=dev \
+  && rm -rf \
+    node_modules/@xterm \
+    node_modules/node-pty/prebuilds/darwin-* \
+    node_modules/node-pty/prebuilds/win32-*
 
 FROM node:22-bookworm-slim AS runtime
 
@@ -45,7 +49,8 @@ RUN groupmod --gid "${GID}" node \
 USER node
 RUN pipx install beets \
   && pipx install gamdl \
-  && pipx install 'yt-dlp[default]'
+  && pipx install 'yt-dlp[default]' \
+  && rm -rf /home/node/.cache/pip
 
 WORKDIR /app
 
