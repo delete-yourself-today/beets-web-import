@@ -13,6 +13,7 @@ services:
     volumes:
       - ./inbox:/inbox
       - ./music:/music
+      # Custom configs: see README.md for the ephemeral database backup setting.
       - ./config.yaml:/config/beets/config.yaml:ro
       # - ./gamdl.ini:/config/gamdl/config.ini:ro
       # - ./apple-music-cookies.txt:/config/gamdl/cookies.txt:ro

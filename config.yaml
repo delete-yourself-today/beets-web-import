@@ -1,4 +1,8 @@
 directory: /music
+# The default library is disposable: skip migration backups entirely.
+# Set this to yes if you enable persistent library mode.
+create_backup_before_migrations: no
+
 import:
   move: yes
   write: yes
